@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const LaunchItem = props => {
   const {
@@ -17,9 +18,9 @@ const LaunchItem = props => {
         </div>
         <div className="col-md-3">
           <h4>Status: {launch_success ? "Success" : "Failure"}</h4>
-          <button className="btn btn-secondary" disabled>
-            Launch details
-          </button>
+          <Link to={`/launch/${flight_number}`}>
+            <button className="btn btn-secondary">Launch details</button>
+          </Link>
         </div>
       </div>
     </div>
