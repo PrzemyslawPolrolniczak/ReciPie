@@ -31,6 +31,27 @@ const RocketType = new GraphQLObjectType({
   })
 });
 
+const UserType = new GraphQLObjectType({
+  name: "UserType",
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    email: { type: GraphQLString },
+    recipes: { type: new GraphQLList(RecipeType) }
+  })
+});
+
+const RecipeType = new GraphQLObjectType({
+  name: "RecipeType",
+  fields: () => ({
+    id: { type: GraphQLID },
+    title: { type: GraphQLString },
+    ingredients: { type: GraphQLString },
+    direction: { type: GraphQLString },
+    user: { type: UserType }
+  })
+});
+
 // RESOLVERS
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
@@ -80,6 +101,76 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
-module.exports = new GraphQLSchema({
+const RecipieQuery = new GraphQLObjectType({
+  name: "RecipieQuery",
+  fields: {
+    user: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      async resolve(_, args, { models }) {
+        return models.User.findById(args.id);
+      }
+    },
+    allRecipes: {
+      type: new GraphQLList(RecipeType),
+      async resolve(_, __, { models }) {
+        return models.Recipe.findAll();
+      }
+    }
+  }
+});
+
+// MUTATIONS
+
+const RecipieMutations = new GraphQLObjectType({
+  name: "RecipieMutations",
+  fields: {
+    createUser: {
+      type: UserType,
+      args: {
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        password: { type: GraphQLString }
+      },
+      async resolve(_, args, { models }) {
+        const { name, email, password } = args;
+
+        return models.User.create({
+          name,
+          email,
+          password
+        });
+      }
+    },
+    createRecipe: {
+      type: RecipeType,
+      args: {
+        userId: { type: GraphQLID },
+        title: { type: GraphQLString },
+        ingredients: { type: GraphQLString },
+        direction: { type: GraphQLString }
+      },
+      async resolve(_, args, { models }) {
+        const { userId, title, ingredients, direction } = args;
+
+        return models.Recipe.create({
+          userId,
+          title,
+          ingredients,
+          direction
+        });
+      }
+    }
+  }
+});
+
+module.exports.test = new GraphQLSchema({
   query: RootQuery
+});
+
+module.exports.recipie = new GraphQLSchema({
+  query: RecipieQuery,
+  mutation: RecipieMutations
 });
