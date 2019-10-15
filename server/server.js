@@ -1,23 +1,14 @@
-const express = require("express");
-const graphqlHTTP = require("express-graphql");
-const cors = require("cors");
-const { recipie: schema } = require("./schema");
+const { ApolloServer } = require("apollo-server");
+const typeDefs = require("./schema");
+const resolvers = require("./resolvers");
 const models = require("./models");
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: { models }
+});
 
-app.use(cors());
-
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema,
-    context: { models },
-    graphiql: true
-  })
-);
-
-app.listen(PORT, () =>
-  console.log(`App is listening on http://localhost:${PORT}`)
-);
+server
+  .listen(5000)
+  .then(({ url }) => console.log(`Server is running on ${url}`));
