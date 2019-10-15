@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
-import Recipies from "./components/recipies/Recipies";
-import Recipie from "./components/recipie/Recipie";
+import Recipies from "./pages/recipies/Recipies";
+import Login from "./pages/login/Login";
+import Recipie from "./pages/recipie/Recipie";
 
 const client = new ApolloClient({
   uri: "http://localhost:5000/graphql"
@@ -17,6 +18,7 @@ const App = () => {
         <div className="container">
           <h1>ReciPie</h1>
           <Route exact path="/" component={Recipies} />
+          <Route exact path="/login" component={Login} />
           <Route path="/recipie/:id" component={Recipie} />
         </div>
       </Router>

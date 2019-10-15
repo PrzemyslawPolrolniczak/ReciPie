@@ -2,7 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
-import RecipieItem from "../recipieItem/RecipieItem";
+import RecipieItem from "../../components/recipieItem/RecipieItem";
 
 const RECIPIES_QUERY = gql`
   query RecipiesQuery {
