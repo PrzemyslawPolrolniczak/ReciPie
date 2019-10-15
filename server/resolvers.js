@@ -22,11 +22,13 @@ const resolvers = {
   },
   Mutation: {
     async createUser(_, { name, email, password }, { models }) {
-      return models.User.create({
+      models.User.create({
         name,
         email,
         password: await bcrypt.hash(password, 10)
       });
+
+      return "AUTHORITIZED";
     },
     async createRecipie(
       _,
