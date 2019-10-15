@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   User.associate = function(models) {
-    User.hasMany(models.Recipe);
+    User.hasMany(models.Recipie);
   };
   return User;
 };

@@ -9,11 +9,11 @@ const resolvers = {
         }
       });
     },
-    async allRecipes(_, __, { models }) {
-      return models.Recipe.findAll();
+    async allRecipies(_, __, { models }) {
+      return models.Recipie.findAll();
     },
-    async recipe(_, { id }, { models }) {
-      return models.Recipe.findOne({
+    async recipie(_, { id }, { models }) {
+      return models.Recipie.findOne({
         where: {
           id
         }
@@ -28,22 +28,22 @@ const resolvers = {
         password: await bcrypt.hash(password, 10)
       });
     },
-    async createRecipe(
+    async createRecipie(
       _,
       { userId, title, ingredients, direction },
       { models }
     ) {
-      return models.Recipe.create({ userId, title, ingredients, direction });
+      return models.Recipie.create({ userId, title, ingredients, direction });
     }
   },
   User: {
-    async recipes(user) {
-      return user.getRecipes();
+    async recipies(user) {
+      return user.getRecipies();
     }
   },
-  Recipe: {
-    async user(recipe) {
-      return recipe.getUser();
+  Recipie: {
+    async user(recipie) {
+      return recipie.getUser();
     }
   }
 };

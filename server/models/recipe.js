@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Recipe = sequelize.define(
-    "Recipe",
+  const Recipie = sequelize.define(
+    "Recipie",
     {
       title: {
         type: DataTypes.STRING,
@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Recipe.associate = function(models) {
-    Recipe.belongsTo(models.User, { foreignKey: "userId" });
+  Recipie.associate = function(models) {
+    Recipie.belongsTo(models.User, { foreignKey: "userId" });
   };
-  return Recipe;
+  return Recipie;
 };

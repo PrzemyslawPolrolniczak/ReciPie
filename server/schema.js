@@ -5,10 +5,10 @@ const typeDefs = gql`
     id: Int!
     name: String!
     email: String!
-    recipes: [Recipe!]!
+    recipies: [Recipie!]!
   }
 
-  type Recipe {
+  type Recipie {
     id: Int!
     title: String!
     ingredients: String!
@@ -18,18 +18,18 @@ const typeDefs = gql`
 
   type Query {
     user(id: Int!): User
-    allRecipes: [Recipe!]!
-    recipe(id: Int!): Recipe
+    allRecipies: [Recipie!]!
+    recipie(id: Int!): Recipie
   }
 
   type Mutation {
     createUser(name: String!, email: String!, password: String!): User!
-    createRecipe(
+    createRecipie(
       userId: Int!
       title: String!
       ingredients: String!
       direction: String!
-    ): Recipe!
+    ): Recipie!
   }
 `;
 
