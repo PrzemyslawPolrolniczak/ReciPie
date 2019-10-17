@@ -7,13 +7,17 @@ import { AUTH_TOKEN } from "../../constants";
 
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $password: String!, $name: String!) {
-    createUser(email: $email, password: $password, name: $name)
+    createUser(email: $email, password: $password, name: $name) {
+      err
+      token
+    }
   }
 `;
 
 const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation LoginMutation($name: String!, $password: String!) {
+    loginUser(name: $name, password: $password) {
+      err
       token
     }
   }
@@ -24,17 +28,45 @@ const Authentication = props => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [login] = useMutation(LOGIN_MUTATION);
   const [signup] = useMutation(SIGNUP_MUTATION);
 
   const history = useHistory();
 
-  const confirm = async () => {
+  const confirm = () => {
+    register ? registerUser() : loginUser();
+  };
+
+  const loginUser = async () => {
+    const variables = { name, password };
+    const {
+      data: {
+        loginUser: { err, token }
+      }
+    } = await login({ variables });
+
+    authenticate(err, token);
+  };
+
+  const registerUser = async () => {
     const variables = { name, email, password };
     const {
-      data: { createUser: token }
-    } = register ? await signup({ variables }) : await login({ variables });
+      data: {
+        createUser: { err, token }
+      }
+    } = await signup({ variables });
 
+    authenticate(err, token);
+  };
+
+  const authenticate = (err, token) => {
+    if (!token) {
+      setError(err);
+      return null;
+    }
+
+    setError("");
     localStorage.setItem(AUTH_TOKEN, token);
     history.push(`/`);
   };
@@ -78,6 +110,11 @@ const Authentication = props => {
           {register ? "already have an account?" : "need to create an account?"}
         </div>
       </div>
+      {error && (
+        <div className="alert alert-danger">
+          <strong>Error!</strong> {error}
+        </div>
+      )}
     </div>
   );
 };

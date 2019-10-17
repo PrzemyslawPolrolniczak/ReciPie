@@ -23,13 +23,19 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(name: String!, email: String!, password: String!): String!
+    createUser(name: String!, email: String!, password: String!): Token!
+    loginUser(name: String!, password: String!): Token!
     createRecipie(
       userId: Int!
       title: String!
       ingredients: String!
       direction: String!
     ): Recipie!
+  }
+
+  type Token {
+    err: String
+    token: String
   }
 `;
 
