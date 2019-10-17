@@ -1,0 +1,29 @@
+.header {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+
+  a {
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__logo {
+    height: 100%;
+    font-size: 48px;
+  }
+
+  &__tile {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: all 0.1s;
+
+    &:hover {
+      color: darken(#fff, 50%);
+    }
+  }
+}
