@@ -21,7 +21,10 @@ const Header = props => {
       </Link>
       {authToken ? (
         <>
-          <Link to="/" className="header__tile nav-link">
+          <Link to="/create-recipie" className="header__tile nav-link">
+            Create Recipie
+          </Link>
+          <Link to="/recipies" className="header__tile nav-link">
             ReciPies
           </Link>
           <div onClick={logout} className="header__tile nav-link">

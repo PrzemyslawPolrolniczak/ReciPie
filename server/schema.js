@@ -20,6 +20,7 @@ const typeDefs = gql`
     user(id: Int!): User
     allRecipies: [Recipie!]!
     recipie(id: Int!): Recipie
+    allUsers: [User]!
   }
 
   type Mutation {

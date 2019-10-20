@@ -18,6 +18,9 @@ const resolvers = {
           id
         }
       });
+    },
+    async allUsers(_, __, { models }) {
+      return models.User.findAll();
     }
   },
   Mutation: {
