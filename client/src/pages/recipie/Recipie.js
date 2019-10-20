@@ -46,7 +46,7 @@ const Launch = props => {
                   <p className="card-text">{ingredients}</p>
                   <h5 className="card-title">Direction:</h5>
                   <p className="card-text">{direction}</p>
-                  <Link to="/" className="btn btn-primary">
+                  <Link to="/recipies" className="btn btn-primary">
                     Go back
                   </Link>
                 </div>
