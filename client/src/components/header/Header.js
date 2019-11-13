@@ -5,12 +5,12 @@ import { AUTH_TOKEN } from "../../constants";
 
 import "./header.scss";
 
-const Header = props => {
-  const authToken = localStorage.getItem(AUTH_TOKEN);
+const Header = ({ logout, authenticated }) => {
   const history = useHistory();
 
-  const logout = () => {
+  const handleLogout = () => {
     localStorage.removeItem(AUTH_TOKEN);
+    logout();
     history.push(`/login`);
   };
 
@@ -19,12 +19,15 @@ const Header = props => {
       <Link to="/">
         <div className="header__logo">ReciPie</div>
       </Link>
-      {authToken ? (
+      {authenticated ? (
         <>
-          <Link to="/" className="header__tile nav-link">
+          <Link to="/create-recipie" className="header__tile nav-link">
+            Create Recipie
+          </Link>
+          <Link to="/recipies" className="header__tile nav-link">
             ReciPies
           </Link>
-          <div onClick={logout} className="header__tile nav-link">
+          <div onClick={handleLogout} className="header__tile nav-link">
             Logout
           </div>
         </>

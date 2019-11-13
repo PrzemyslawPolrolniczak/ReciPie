@@ -23,7 +23,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-const Authentication = props => {
+const Authentication = ({ onLogin }) => {
   const [register, setRegister] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -68,7 +68,8 @@ const Authentication = props => {
 
     setError("");
     localStorage.setItem(AUTH_TOKEN, token);
-    history.push(`/`);
+    onLogin();
+    history.push(`/recipies`);
   };
 
   return (
@@ -78,18 +79,18 @@ const Authentication = props => {
         {register && (
           <input
             className="form-control my-2"
-            value={name}
-            onChange={e => setName(e.target.value)}
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             type="text"
-            placeholder="Your name"
+            placeholder="Your email address"
           />
         )}
         <input
           className="form-control my-2"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          value={name}
+          onChange={e => setName(e.target.value)}
           type="text"
-          placeholder="Your email address"
+          placeholder="Your name"
         />
         <input
           className="form-control my-2"

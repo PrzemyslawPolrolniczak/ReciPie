@@ -18,6 +18,9 @@ const resolvers = {
           id
         }
       });
+    },
+    async allUsers(_, __, { models }) {
+      return models.User.findAll();
     }
   },
   Mutation: {
@@ -37,13 +40,18 @@ const resolvers = {
       if (existingUser && !existingUser.isNewRecord) {
         return { err: "Username or email is already taken", token: null };
       } else {
-        models.User.create({
+        const user = await models.User.create({
           name,
           email,
           password: await bcrypt.hash(password, 10)
+        }).then(user => {
+          return user;
         });
 
-        return { err: null, token: `AuthenticatedUser${name}` };
+        return {
+          err: null,
+          token: `AuthenticatedUser=${name} id=${user.dataValues.id}`
+        };
       }
     },
     async loginUser(_, { name, password }, { models }) {
@@ -56,7 +64,7 @@ const resolvers = {
       if (!user) return { err: "There is no such user", token: null };
 
       const {
-        dataValues: { password: pwd }
+        dataValues: { id, password: pwd }
       } = user;
 
       const result = await new Promise((resolve, reject) => {
@@ -65,7 +73,7 @@ const resolvers = {
             reject({ err, token: null });
           }
           if (res) {
-            resolve({ err: null, token: `AuthenticatedUser${name}` });
+            resolve({ err: null, token: `AuthenticatedUser=${name} id=${id}` });
           } else {
             resolve({ err: "Pass don't match", token: null });
           }
