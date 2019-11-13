@@ -2,10 +2,10 @@ import React from "react";
 
 import Authentication from "../../components/authentication/Authentication";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   return (
     <div>
-      <Authentication />
+      <Authentication onLogin={onLogin} />
     </div>
   );
 };

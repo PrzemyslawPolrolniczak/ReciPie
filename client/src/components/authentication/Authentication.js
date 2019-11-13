@@ -23,7 +23,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-const Authentication = () => {
+const Authentication = ({ onLogin }) => {
   const [register, setRegister] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -68,6 +68,7 @@ const Authentication = () => {
 
     setError("");
     localStorage.setItem(AUTH_TOKEN, token);
+    onLogin();
     history.push(`/recipies`);
   };
 
